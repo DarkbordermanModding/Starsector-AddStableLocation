@@ -1,0 +1,58 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+repositories {
+    mavenCentral()
+}
+
+apply plugin: 'java'
+
+// project level config
+sourceSets.main.java.srcDir 'src'
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+archivesBaseName = 'addstablelocation'
+
+build {
+    doLast {
+        copy {
+            from jar
+            into 'jars'
+        }
+    }
+}
+
+task run(type: Exec) {
+    description 'Run Starsector'
+    dependsOn build
+    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        workingDir '../../starsector-core'
+        commandLine 'cmd', '/c', 'start', 'starsector.bat'
+    } else {
+        workingDir '../..'
+        commandLine 'sh', 'starsector.sh'
+    }
+}
+
+task release(type: Zip) {
+    description 'Create releaseable zip file.'
+    def cmdOutput = 'jq -rj .version mod_info.json'.execute().text
+    from '.'
+    include 'src/'
+    include 'data/'
+    include 'graphics/'
+    include 'sounds/'
+    include 'jars/'
+    include 'mod_info.json'
+    archiveName archivesBaseName + '-' + cmdOutput + '.zip'
+    destinationDir(file('bin/'))
+}
+
+clean {
+    description 'Cleanup files'
+    delete fileTree('jars/') { include '*.jar' }
+    delete fileTree('bin/') { include '*.zip' }
+}
+
+dependencies {
+    compile fileTree(dir: './libs/', include: '*.jar')
+}

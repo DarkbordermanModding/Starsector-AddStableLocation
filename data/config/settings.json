@@ -1,0 +1,13 @@
+{
+    "addstablelocation": {
+        "maxLocationCount": 5,
+        "storyPointCost": 0,
+        "required": {
+            "gamma_core": 1,
+            "heavy_machinery": 100.0
+        },
+        "consumed": {
+            "fuel": 250.0
+        }
+    }
+}

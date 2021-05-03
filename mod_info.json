@@ -1,0 +1,10 @@
+{
+	"id":"darkborderman.addstablelocation",
+	"name":"Add Stable Locations",
+	"author":"Darkborderman",
+	"version":"0.0.0",
+	"description":"Create stable location by interacting with stars.",
+	"gameVersion":"0.95.1a-RC6",
+	"jars": ["jars/addstablelocation.jar"],
+	"modPlugin":"data.scripts.plugins.EntryPlugin"
+}
